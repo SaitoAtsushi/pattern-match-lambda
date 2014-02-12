@@ -44,6 +44,7 @@
 (exam (example2 'foo 2) 'foo-case-2)
 (exam (example2 'baz 4) '(baz-case 4))
 
+;; Underbar is placeholder
 (define example3
   (pattern-match-lambda ()
     ((_) 'arity1)
@@ -52,3 +53,11 @@
 
 (exam (example3 1 1 1) 'arity3)
 
+;; If underbar was specified as literal, underbar will match literal.
+(define example4
+  (pattern-match-lambda (_)
+    ((_) 'case1)
+    ((x) x)))
+
+(exam (example4 '_) 'case1)
+(exam (example4 'foo) 'foo)

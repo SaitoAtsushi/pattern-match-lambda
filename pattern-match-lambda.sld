@@ -21,6 +21,11 @@
                          ((_ x) alt))))
        (foo p))))))
 
+(define-syntax if-placeholder
+  (syntax-rules (_)  ;; Literals cannot include underbar in R6RS.
+    ((_ _ seq alt) seq)
+    ((_ p seq alt) alt)))
+
 (define-syntax %if-match-vector
   (syntax-rules ()
     ((_ (literals ...) #() ind e seq alt) seq)
@@ -31,16 +36,11 @@
        alt))))
 
 (define-syntax %if-match
-  (syntax-rules (_) ;; Literals cannot include underbar in R6RS.
+  (syntax-rules ()
     ((_ (literals ...) #(p ...) e seq alt)
      (if (and (vector? e) (= (vector-length '#(p ...)) (vector-length e)))
          (%if-match-vector (literals ...) #(p ...) 0 e seq alt)
          (alt)))
-    ((_ (literals ...) (_ . r) e seq alt)
-     (let ((temp e))
-       (if (pair? temp)
-           (%if-match (literals ...) r (cdr temp) seq alt)
-           (alt))))
     ((_ (literals ...) (p . r) e seq alt)
      (let ((temp e))
        (if (pair? temp)
@@ -50,13 +50,13 @@
            (alt))))
     ((_ (literals ...) () e seq alt)
      (if (null? e) seq (alt)))
-    ((_ (literals ...) _ e seq alt)
-     seq)
     ((_ (literals ...) p e seq alt)
      (if-identifier p
        (if-literal p (literals ...)
          (if (equal? 'p e) seq (alt))
-         (let ((p e)) seq))
+         (if-placeholder p
+           seq
+           (let ((p e)) seq)))
        (if (equal? p e) seq (alt))))))
 
 (define-syntax if-match
