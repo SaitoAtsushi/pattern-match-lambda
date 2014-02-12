@@ -43,3 +43,12 @@
 (exam (example2 'foo '(1 #(2 3))) '(foo-case 1 2 3))
 (exam (example2 'foo 2) 'foo-case-2)
 (exam (example2 'baz 4) '(baz-case 4))
+
+(define example3
+  (pattern-match-lambda ()
+    ((_) 'arity1)
+    ((_ _) 'arity2)
+    ((_ _ _) 'arity3)))
+
+(exam (example3 1 1 1) 'arity3)
+
