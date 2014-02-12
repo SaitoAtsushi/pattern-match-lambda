@@ -12,11 +12,6 @@
                             ((_ x) alt))))
          (test foo))))))
 
-(define-syntax if-vector
-  (syntax-rules ()
-    ((_ #(x ...) seq alt) seq)
-    ((_ x seq alt) alt)))
-
 (define-syntax if-literal
   (syntax-rules ()
     ((_ p (literals ...) seq alt)
@@ -49,16 +44,9 @@
     ((_ (literals ...) (p . r) e seq alt)
      (let ((temp e))
        (if (pair? temp)
-           (if-identifier p
-             (if-literal p (literals ...)
-               (if (equal? 'p (car temp))
-                   (%if-match (literals ...) r (cdr temp) seq alt)
-                   (alt))
-               (let ((p (car temp)))
-                 (%if-match (literals ...) r (cdr temp) seq alt)))
-             (%if-match (literals ...) p (car temp)
-               (%if-match (literals ...) r (cdr temp) seq alt)
-               alt))
+           (%if-match (literals ...) p (car temp)
+             (%if-match (literals ...) r (cdr temp) seq alt)
+             alt)
            (alt))))
     ((_ (literals ...) () e seq alt)
      (if (null? e) seq (alt)))
@@ -69,9 +57,7 @@
        (if-literal p (literals ...)
          (if (equal? 'p e) seq (alt))
          (let ((p e)) seq))
-       (if-vector p
-         (%if-match-vector (literals ...) p e seq alt)
-         (if (equal? p e) seq (alt)))))))
+       (if (equal? p e) seq (alt))))))
 
 (define-syntax if-match
   (syntax-rules ()
