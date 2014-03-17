@@ -61,3 +61,8 @@
 
 (exam (example4 '_) 'case1)
 (exam (example4 'foo) 'foo)
+
+;; If there is duplicate template variables, report error.
+;; (pattern-match-lambda (_)
+;;    ((_) 'case1)
+;;    ((x x) x))

@@ -9,7 +9,7 @@
      (let-syntax ((foo (syntax-rules () ((_) seq))))
        (let-syntax ((test (syntax-rules ()
                             ((_ condition) (foo))
-                            ((_ x) alt))))
+                            ((_ foo) alt))))
          (test foo))))))
 
 (define-syntax if-literal
@@ -18,8 +18,8 @@
      (let-syntax ((bar (syntax-rules () ((_) seq))))
        (let-syntax ((foo (syntax-rules (literals ...)
                          ((_ literals) (bar)) ...
-                         ((_ x) alt))))
-       (foo p))))))
+                         ((_ bar) alt))))
+         (foo p))))))
 
 (define-syntax if-placeholder
   (syntax-rules (_)  ;; Literals cannot include underbar in R6RS.
@@ -59,11 +59,54 @@
            (let ((p e)) seq)))
        (if (equal? p e) seq (alt))))))
 
+(define-syntax %duplicate-check
+  (syntax-rules ()
+    ((_) #f)
+    ((_ p r ...)
+     (letrec-syntax
+         ((bar (syntax-rules ()
+                 ((_) (syntax-error "duplicate pattern variable in pattern-match-lambda" p ))))
+          (foo (syntax-rules (r ...)
+                 ((_ r) (bar))
+                 ...
+                 ((_ x) (syntax-rules () ((_) (%duplicate-check r ...)))))))
+       (foo p)))))
+
+(define-syntax duplicate-check
+  (syntax-rules ()
+    ((_ (pvar ...) (literals ...) #(p ...))
+     (duplicate-check (pvar ...) (literals ...) (p ...)))
+    ((_ (pvar ...) (literals ...) ((p) . r))
+     (duplicate-check (pvar ...) (literals ...) (p . r)))
+    ((_ (pvar ...) (literals ...) ((p0 . p1) . r))
+     (duplicate-check (pvar ...) (literals ...) (p0 p1 . r)))
+    ((_ (pvar ...) (literals ...) (#(p ...) . r))
+     (duplicate-check (pvar ...) (literals ...) (p ... . r)))
+    ((_ (pvar ...) (literals ...) (p . r))
+     (if-identifier p
+       (if-literal p (literals ...)
+         (duplicate-check (pvar ...) (literals ...) r)
+         (if-placeholder p
+           (duplicate-check (pvar ...) (literals ...) r)
+           (duplicate-check (pvar ... p) (literals ...) r)))
+       (duplicate-check (pvar ...) (literals ...) r)))
+    ((_ (pvar ...) (literals ...) ())
+     (%duplicate-check pvar ...))
+    ((_ (pvar ...) (literals ...) p)
+     (if-identifier p
+       (if-literal p (literals ...)
+         (duplicate-check (pvar ...) (literals ...) ())
+         (if-placeholder p
+           (duplicate-check (pvar ...) (literals ...) ())
+           (duplicate-check (pvar ... p) (literals ...) ())))
+       (duplicate-check (pvar ...) (literals ...) ())))))
+
 (define-syntax if-match
   (syntax-rules ()
     ((_ (literals ...) pattern lst seq alt)
      (let ((alt-thunk (lambda() alt)))
-       (%if-match (literals ...) pattern lst seq alt-thunk)))))
+       (begin (duplicate-check () (literals ...) pattern)
+              (%if-match (literals ...) pattern lst seq alt-thunk))))))
 
 (define-syntax %pattern-match-lambda
   (syntax-rules (else)
