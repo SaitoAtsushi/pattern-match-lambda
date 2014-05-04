@@ -6,7 +6,7 @@
   (syntax-rules ()
     ((_ form expect)
      (begin
-       (display 'form)
+       (write 'form)
        (display " ... ")
        (display (if (equal? form expect) 'ok 'ng))
        (newline)))))
@@ -66,3 +66,12 @@
 ;; (pattern-match-lambda (_)
 ;;    ((_) 'case1)
 ;;    ((x x) x))
+
+;; If there is fender, use it.
+(define example5
+  (pattern-match-lambda ()
+    ((x) (string? x) x)
+    ((x) 'not-string)))
+
+(exam (example5 "1") "1")
+(exam (example5 1) 'not-string)

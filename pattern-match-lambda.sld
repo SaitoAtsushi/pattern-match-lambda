@@ -117,12 +117,19 @@
      (if-match (literals ...) pattern lst
        expr
        (%pattern-match-lambda (literals ...) lst
-         (rest-pattern rest-expr) ...)))))
+         (rest-pattern rest-expr) ...)))
+    ((_ (literals ...) lst (pattern fender expr) (rest-pattern rest-expr) ...)
+     (let ((next
+            (lambda() (%pattern-match-lambda (literals ...) lst
+                                             (rest-pattern rest-expr) ...))))
+     (if-match (literals ...) pattern lst
+       (if fender expr (next))
+       (next))))))
 
 (define-syntax pattern-match-lambda
   (syntax-rules ()
-    ((_ (literals ...) (pattern expr)  ...)
+    ((_ (literals ...) clause  ...)
      (lambda lst
-       (%pattern-match-lambda (literals ...) lst (pattern expr) ...)))))
+       (%pattern-match-lambda (literals ...) lst clause ...)))))
 
 ))
