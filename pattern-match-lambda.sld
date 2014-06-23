@@ -69,7 +69,7 @@
           (foo (syntax-rules (r ...)
                  ((_ r) (bar))
                  ...
-                 ((_ x) (syntax-rules () ((_) (%duplicate-check r ...)))))))
+                 ((_ x) (%duplicate-check r ...)))))
        (foo p)))))
 
 (define-syntax duplicate-check
