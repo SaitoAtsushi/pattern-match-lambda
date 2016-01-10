@@ -11,8 +11,32 @@ This package doesn't contain install scripts.  The installation procedure
 depends on the Scheme implementation you're using.  Please see document of
 the implementation.
 
+## How to use
+
+The following examples shows how to use `pattern-match-lambda`.
+
+```scheme
+(define fact
+  (pattern-match-lambda ()
+   ((0) 1)
+   ((n) (* n (fact (- n 1))))))
+
+(fact 5) ;; -> 120
+
+(define string-input?
+  (pattern-match-lambda ()
+    ((x) (string? x) x)
+    ((x) 'not-string)))
+
+(string-input? "ok") ;; -> "ok"
+(string-input? 'ng)  ;; ->  not-string
+```
+
+[test.scm](test.scm) contains more examples.
+
 ## Syntax
-A `pattern-match-lambda`'s syntax is the following.
+
+The `pattern-match-lambda`'s syntax is the following.
 
 ```scheme
 (pattern-match-lambda (<pattern literal> ...) <clause> ...)
@@ -54,7 +78,7 @@ variable number of arguments and is lexically scoped in the same manner as
 a procedure resulting from a lambda expression. When the procedure is
 called, the first _`<clause>`_ for which the arguments match with
 _`<pattern>`_ is selected, where argument is specified as for the
-_`<pattern>`_ of a syntax-rules like expression.
+_`<pattern>`_ of a `syntax-rules` like expression.
 
 Difference between _`<pattern>`_ of `syntax-rules` and
 `pattern-match-lambda` is ellipsis. Ellipsis is not able to use in
