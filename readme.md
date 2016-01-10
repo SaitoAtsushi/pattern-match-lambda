@@ -42,6 +42,23 @@ The `pattern-match-lambda`'s syntax is the following.
 (pattern-match-lambda (<pattern literal> ...) <clause> ...)
 ```
 
+`(_<pattern literal>_ ...)` must be either null or a list of unique
+identifiers. If this is not null, then specified identifiers are treated as
+if they are keyword of the `pattern-match-lambda` macro.
+
+```scheme
+(define literal
+  (pattern-match-lambda (foo)
+    ((foo x) x)
+    ((_   x) 'ng)))
+
+(literal 'foo 'x) ;; -> x
+(literal 'bar 'x) ;; -> ng
+```
+
+Literal matching are done against mere symbols not syntax identifiers. This
+is because `pattern-match-lambda` macro creates an procedure not a macro.
+
 _`<clause>`_ must have one of the following forms:
 
 - ```(<pattern> <expr>)```
