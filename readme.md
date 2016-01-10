@@ -85,8 +85,8 @@ Difference between _`<pattern>`_ of `syntax-rules` and
 pattern-match-lambda's _`<pattern>`_.
 
 The variables of _`<pattern>`_ are bound to fresh locations, the values of
-the arguments are stored in those locations, the _`<body>`_ is evaluated in
-the extended environment, and the results of _`<body>`_ are returned as the
+the arguments are stored in those locations, the _`<expr>`_ is evaluated in
+the extended environment, and the results of _`<expr>`_ are returned as the
 results of the procedure call. It is an error for the arguments not to
 match with the _`<pattern>`_ of any _`<clause>`_.
 
