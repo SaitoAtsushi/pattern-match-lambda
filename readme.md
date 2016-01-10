@@ -18,12 +18,12 @@ A `pattern-match-lambda`'s syntax is the following.
 (pattern-match-lambda (<pattern literal> ...) <clause> ...)
 ```
 
-<clause> must have one of the following forms:
+_<clause>_ must have one of the following forms:
 
 - ```(<pattern> <expr>)```
 - ```(<pattern> <fender> <expr>)```
 
-A <pattern> is either an identifier, a constant, or one of the followings.
+A _<pattern>_ is either an identifier, a constant, or one of the followings.
 
 ```scheme
 (<pattern> ...)
@@ -31,8 +31,8 @@ A <pattern> is either an identifier, a constant, or one of the followings.
 #(<pattern> ...)
 ```
 
-A <fender> is an expression which is evaluated when <pattern> is matched.
-If the result of evaluation is true value, then the following <expr> is
+A _<fender>_ is an expression which is evaluated when _<pattern>_ is matched.
+If the result of evaluation is true value, then the following _<expr>_ is
 evaluated, otherwise `pattern-match-lambda` continues matching. The following
 example shows how it works:
 
@@ -51,32 +51,32 @@ example shows how it works:
 A `pattern-match-lambda` expression evaluates to a procedure that accepts a
 variable number of arguments and is lexically scoped in the same manner as 
 a procedure resulting from a lambda expression. When the procedure is called,
-the first <clause> for which the arguments match with <pattern> is selected, 
-where argument is specified as for the <pattern> of a syntax-rules like 
-expression.
+the first _<clause>_ for which the arguments match with _<pattern>_ is 
+selected, where argument is specified as for the _<pattern>_ of a 
+syntax-rules like expression.
 
-Difference between <pattern> of `syntax-rules` and `pattern-match-lambda` is 
-ellipsis. Ellipsis is not able to use in pattern-match-lambda's <pattern>.
+Difference between _<pattern>_ of `syntax-rules` and `pattern-match-lambda` is 
+ellipsis. Ellipsis is not able to use in pattern-match-lambda's _<pattern>_.
 
-The variables of <pattern> are bound to fresh locations, the values of the 
-arguments are stored in those locations, the <body> is evaluated in the 
-extended environment, and the results of <body> are returned as the results 
+The variables of _<pattern>_ are bound to fresh locations, the values of the 
+arguments are stored in those locations, the _<body>_ is evaluated in the 
+extended environment, and the results of _<body>_ are returned as the results 
 of the procedure call. It is an error for the arguments not to match with 
-the <pattern> of any <clause>.
+the _<pattern>_ of any _<clause>_.
 
-An identifier appearing within a <pattern> can be an underscore (`_`), a 
-literal identifier listed in the list of <pattern-literal>. All other 
-identifiers appearing within a <pattern> are variables.
+An identifier appearing within a _<pattern>_ can be an underscore (`_`), a 
+literal identifier listed in the list of _<pattern-literal>_. All other 
+identifiers appearing within a _<pattern>_ are variables.
 
-Variables in <pattern> match arbitrary input elements and are used to refer 
+Variables in _<pattern>_ match arbitrary input elements and are used to refer 
 to elements of the input in the body. It is an error for the same variable 
-to appear more than once in a <pattern>. Underscores also match arbitrary 
+to appear more than once in a _<pattern>_. Underscores also match arbitrary 
 input elements but are not variables and so cannot be used to refer to those 
-elements. If an underscore appears in the <pattern literal> list, then that 
-takes precedence and underscores in the <pattern> match as literals. Multiple 
-underscores can appear in a <pattern>.
+elements. If an underscore appears in the _<pattern literal>_ list, then that 
+takes precedence and underscores in the _<pattern>_ match as literals. Multiple 
+underscores can appear in a _<pattern>_.
 
-Identifiers that appear in (<pattern literal> ...) are interpreted as literal 
+Identifiers that appear in (_<pattern literal>_ ...) are interpreted as literal 
 identifiers to be matched against corresponding elements of the input. An 
 element in the input matches a literal identifiers if and only if it is an 
 symbol and equal to literal identifier in the sense of the eqv? procedure.
