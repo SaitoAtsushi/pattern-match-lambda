@@ -79,7 +79,7 @@ literal>`_ list, then that takes precedence and underscores in the
 _`<pattern>`_ match as literals.  Multiple underscores can appear in a
 _`<pattern>`_.
 
-Identifiers that appear in `(_<pattern literal>`_ ...)` are interpreted as
+Identifiers that appear in `(_<pattern literal>_ ...)` are interpreted as
 literal identifiers to be matched against corresponding elements of the
 input.  An element in the input matches a literal identifiers if and only
 if it is an symbol and equal to literal identifier in the sense of the
