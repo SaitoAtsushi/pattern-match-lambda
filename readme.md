@@ -2,14 +2,14 @@
 
 ## Introduction
 
-This package is easy pattern match library for R7RS.
-It provides only one macro named `pattern-match-lambda`.
+This package is easy pattern match library for R7RS.  It provides only one
+macro named `pattern-match-lambda`.
 
 ## Install
 
-This package doesn't contain install scripts.
-The installation procedure depends on the Scheme implementation you're using.
-Please see document of the implementation.
+This package doesn't contain install scripts.  The installation procedure
+depends on the Scheme implementation you're using.  Please see document of
+the implementation.
 
 ## Syntax
 A `pattern-match-lambda`'s syntax is the following.
@@ -18,12 +18,13 @@ A `pattern-match-lambda`'s syntax is the following.
 (pattern-match-lambda (<pattern literal> ...) <clause> ...)
 ```
 
-_<clause>_ must have one of the following forms:
+_`<clause>`_ must have one of the following forms:
 
 - ```(<pattern> <expr>)```
 - ```(<pattern> <fender> <expr>)```
 
-A _<pattern>_ is either an identifier, a constant, or one of the followings.
+A _`<pattern>`_ is either an identifier, a constant, or one of the
+followings.
 
 ```scheme
 (<pattern> ...)
@@ -31,10 +32,10 @@ A _<pattern>_ is either an identifier, a constant, or one of the followings.
 #(<pattern> ...)
 ```
 
-A _<fender>_ is an expression which is evaluated when _<pattern>_ is matched.
-If the result of evaluation is true value, then the following _<expr>_ is
-evaluated, otherwise `pattern-match-lambda` continues matching. The following
-example shows how it works:
+A _`<fender>`_ is an expression which is evaluated when _`<pattern>`_ is
+matched.  If the result of evaluation is true value, then the following
+_`<expr>`_ is evaluated, otherwise `pattern-match-lambda` continues
+matching. The following example shows how it works:
 
 ```scheme
 (define foo
@@ -49,43 +50,46 @@ example shows how it works:
 ## Semantics
 
 A `pattern-match-lambda` expression evaluates to a procedure that accepts a
-variable number of arguments and is lexically scoped in the same manner as 
-a procedure resulting from a lambda expression. When the procedure is called,
-the first _<clause>_ for which the arguments match with _<pattern>_ is 
-selected, where argument is specified as for the _<pattern>_ of a 
-syntax-rules like expression.
+variable number of arguments and is lexically scoped in the same manner as
+a procedure resulting from a lambda expression. When the procedure is
+called, the first _`<clause>`_ for which the arguments match with
+_`<pattern>`_ is selected, where argument is specified as for the
+_`<pattern>`_ of a syntax-rules like expression.
 
-Difference between _<pattern>_ of `syntax-rules` and `pattern-match-lambda` is 
-ellipsis. Ellipsis is not able to use in pattern-match-lambda's _<pattern>_.
+Difference between _`<pattern>`_ of `syntax-rules` and
+`pattern-match-lambda` is ellipsis. Ellipsis is not able to use in
+pattern-match-lambda's _`<pattern>`_.
 
-The variables of _<pattern>_ are bound to fresh locations, the values of the 
-arguments are stored in those locations, the _<body>_ is evaluated in the 
-extended environment, and the results of _<body>_ are returned as the results 
-of the procedure call. It is an error for the arguments not to match with 
-the _<pattern>_ of any _<clause>_.
+The variables of _`<pattern>`_ are bound to fresh locations, the values of
+the arguments are stored in those locations, the _`<body>`_ is evaluated in
+the extended environment, and the results of _`<body>`_ are returned as the
+results of the procedure call. It is an error for the arguments not to
+match with the _`<pattern>`_ of any _`<clause>`_.
 
-An identifier appearing within a _<pattern>_ can be an underscore (`_`), a 
-literal identifier listed in the list of _<pattern-literal>_. All other 
-identifiers appearing within a _<pattern>_ are variables.
+An identifier appearing within a _`<pattern>`_ can be an underscore (`_`),
+a literal identifier listed in the list of _`<pattern-literal>`_. All other
+identifiers appearing within a _`<pattern>`_ are variables.
 
-Variables in _<pattern>_ match arbitrary input elements and are used to refer 
-to elements of the input in the body. It is an error for the same variable 
-to appear more than once in a _<pattern>_. Underscores also match arbitrary 
-input elements but are not variables and so cannot be used to refer to those 
-elements. If an underscore appears in the _<pattern literal>_ list, then that 
-takes precedence and underscores in the _<pattern>_ match as literals. Multiple 
-underscores can appear in a _<pattern>_.
+Variables in _`<pattern>`_ match arbitrary input elements and are used to
+refer to elements of the input in the body. It is an error for the same
+variable to appear more than once in a _`<pattern>`_. Underscores also
+match arbitrary input elements but are not variables and so cannot be used
+to refer to those elements. If an underscore appears in the _`<pattern
+literal>`_ list, then that takes precedence and underscores in the
+_`<pattern>`_ match as literals.  Multiple underscores can appear in a
+_`<pattern>`_.
 
-Identifiers that appear in (_<pattern literal>_ ...) are interpreted as literal 
-identifiers to be matched against corresponding elements of the input. An 
-element in the input matches a literal identifiers if and only if it is an 
-symbol and equal to literal identifier in the sense of the eqv? procedure.
+Identifiers that appear in `(_<pattern literal>`_ ...)` are interpreted as
+literal identifiers to be matched against corresponding elements of the
+input.  An element in the input matches a literal identifiers if and only
+if it is an symbol and equal to literal identifier in the sense of the
+`eqv?` procedure.
 
 ## License
 
 Copyright (c) 2014 SAITO Atsushi
 
-Redistribution and use in source and binary forms, with or without 
+Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, 
@@ -97,15 +101,15 @@ modification, are permitted provided that the following conditions are met:
    used to endorse or promote products derived from this software without 
    specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
-ARE DISCLAIMED.
-IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY 
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
-THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
 
