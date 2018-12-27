@@ -7,9 +7,16 @@ macro named `pattern-match-lambda`.
 
 ## Install
 
-This package doesn't contain install scripts.  The installation procedure
-depends on the Scheme implementation you're using.  Please see document of
-the implementation.
+This library is R7RS portable. However, only the install script for
+gauche is available.
+
+```
+./configure
+make install
+```
+
+For another Scheme implementation, copy `pattern-match-lambda.sld` to
+appropriate path.
 
 ## How to use
 
